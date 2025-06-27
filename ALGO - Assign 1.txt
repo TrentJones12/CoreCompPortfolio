@@ -1,0 +1,87 @@
+//STANFORD Algorithm Design - Configuring my first Merge and Sort algorithm (JAVA) parsing array
+
+Programming Question 1
+(1 point possible)
+
+Download the text file here. (Right click and select "Save As...")
+This file contains all of the 100,000 integers between 1 and 100,000 (inclusive) in some order, with no integer repeated.
+
+Your task is to compute the number of inversions in the file given, where the ith row of the file indicates the ith entry of an array.
+
+Because of the large size of this array, you should implement the fast divide-and-conquer algorithm covered in the video lectures.
+The numeric answer for the given input file should be typed in the space below.
+
+So if your answer is 1198233847, then just type 1198233847 in the space provided without any spaces or commas or any other punctuation marks. You can make up to 5 attempts.
+
+(We do not require you to submit your code, so feel free to use any programming language you want --- just type the final numeric answer in the following space.)
+
+[TIP: before submitting, first test the correctness of your program on some small test files or your own devising. Then post your best test cases to the discussion forums to help your fellow students!]
+
+
+
+MERGE SORT JAVA
+package com.java2novice.sorting;
+ 
+public class MyMergeSort {
+     
+    private int[] array;
+    private int[] tempMergArr;
+    private int length;
+ 
+    public static void main(String a[]){
+         
+        int[] inputArr = {45,23,11,89,77,98,4,28,65,43};
+        MyMergeSort mms = new MyMergeSort();
+        mms.sort(inputArr);
+        for(int i:inputArr){
+            System.out.print(i);
+            System.out.print(" ");
+        }
+    }
+     
+    public void sort(int inputArr[]) {
+        this.array = inputArr;
+        this.length = inputArr.length;
+        this.tempMergArr = new int[length];
+        doMergeSort(0, length - 1);
+    }
+ 
+    private void doMergeSort(int lowerIndex, int higherIndex) {
+         
+        if (lowerIndex < higherIndex) {
+            int middle = lowerIndex + (higherIndex - lowerIndex) / 2;
+            // Below step sorts the left side of the array
+            doMergeSort(lowerIndex, middle);
+            // Below step sorts the right side of the array
+            doMergeSort(middle + 1, higherIndex);
+            // Now merge both sides
+            mergeParts(lowerIndex, middle, higherIndex);
+        }
+    }
+ 
+    private void mergeParts(int lowerIndex, int middle, int higherIndex) {
+ 
+        for (int i = lowerIndex; i <= higherIndex; i++) {
+            tempMergArr[i] = array[i];
+        }
+        int i = lowerIndex;
+        int j = middle + 1;
+        int k = lowerIndex;
+        while (i <= middle && j <= higherIndex) {
+            if (tempMergArr[i] <= tempMergArr[j]) {
+                array[k] = tempMergArr[i];
+                i++;
+            } else {
+                array[k] = tempMergArr[j];
+                j++;
+            }
+            k++;
+        }
+        while (i <= middle) {
+            array[k] = tempMergArr[i];
+            k++;
+            i++;
+        }
+ 
+    }
+}
